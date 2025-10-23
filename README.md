@@ -54,6 +54,23 @@ pnpm dev
 
 5. Abre [http://localhost:3000](http://localhost:3000) en tu navegador.
 
+## 🐳 Docker
+
+Si prefieres usar Docker, puedes ejecutar la aplicación con:
+
+```bash
+# Iniciar la aplicación
+docker-compose up
+
+# O en segundo plano
+docker-compose up -d
+
+# Detener la aplicación
+docker-compose down
+```
+
+La aplicación estará disponible en [http://localhost:3000](http://localhost:3000).
+
 ## 📁 Estructura del Proyecto
 
 ```

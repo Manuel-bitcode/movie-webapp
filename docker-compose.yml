@@ -2,10 +2,35 @@ version: '3.8'
 
 services:
   app:
-    build: .
+    # Nombre personalizado del contenedor (más fácil de identificar en logs)
+    container_name: movie-webapp
+    
+    # Configuración de construcción de la imagen
+    build: 
+      context: .              # Directorio desde donde se construye
+      dockerfile: Dockerfile  # Archivo que define la imagen
+    
+    # Mapeo de puertos: puerto_host:puerto_contenedor
     ports:
       - "3000:3000"
+    
+    # Volúmenes para sincronizar archivos entre host y contenedor
     volumes:
-      - .:/app
-      - /app/node_modules
+      - .:/app                # Sincroniza todo el proyecto con /app en el contenedor
+      - /app/node_modules     # Evita sobrescribir node_modules del contenedor
+      - /app/.next            # Mantiene caché de Next.js separada
+    
+    # Variables de entorno
+    environment:
+      - NODE_ENV=development      # Define el entorno como desarrollo
+      - WATCHPACK_POLLING=true    # Habilita hot-reload en Docker (detecta cambios de archivos)
+    
+    # Política de reinicio: se reinicia automáticamente excepto cuando se detiene manualmente
+    restart: unless-stopped
+    
+    # Permite mantener STDIN abierto (útil para debugging)
+    stdin_open: true
+    
+    # Asigna una pseudo-TTY (terminal interactiva)
+    tty: true
 

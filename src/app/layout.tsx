@@ -1,4 +1,11 @@
 import "./globals.css";
+import type { Metadata } from "next";
+import { CounterProvider } from "@/context/useCounter";
+
+export const metadata: Metadata = {
+  title: "Movie Web App",
+  description: "Descubre y guarda tus películas favoritas"
+};
 
 export default function RootLayout({
   children,
@@ -8,7 +15,9 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body>
-        {children}
+        <CounterProvider>
+          {children}
+        </CounterProvider>
       </body>
     </html>
   );

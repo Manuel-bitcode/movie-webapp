@@ -13,6 +13,11 @@ services:
     # Mapeo de puertos: puerto_host:puerto_contenedor
     ports:
       - "3000:3000"
+
+    networks:
+      movie-network:
+        aliases:
+          - movie-webapp
     
     # Volúmenes para sincronizar archivos entre host y contenedor
     volumes:
@@ -22,6 +27,7 @@ services:
     
     # Variables de entorno
     environment:
+      - NEXT_PUBLIC_API_URL=http://localhost:3001
       - NODE_ENV=development      # Define el entorno como desarrollo
       - WATCHPACK_POLLING=true    # Habilita hot-reload en Docker (detecta cambios de archivos)
     
@@ -34,3 +40,6 @@ services:
     # Asigna una pseudo-TTY (terminal interactiva)
     tty: true
 
+networks:
+  movie-network:
+    external: true

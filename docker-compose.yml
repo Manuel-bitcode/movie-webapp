@@ -12,7 +12,7 @@ services:
     
     # Mapeo de puertos: puerto_host:puerto_contenedor
     ports:
-      - "3000:3000"
+      - "3002:3000"
 
     networks:
       movie-network:
@@ -27,7 +27,7 @@ services:
     
     # Variables de entorno
     environment:
-      - NEXT_PUBLIC_API_URL=http://localhost:3001
+      - NEXT_PUBLIC_API_URL=http://localhost:3000
       - NODE_ENV=development      # Define el entorno como desarrollo
       - WATCHPACK_POLLING=true    # Habilita hot-reload en Docker (detecta cambios de archivos)
     

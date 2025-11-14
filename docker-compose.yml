@@ -40,6 +40,43 @@ services:
     # Asigna una pseudo-TTY (terminal interactiva)
     tty: true
 
+  jenkins:
+    # Nombre del contenedor de Jenkins
+    container_name: jenkins-server
+    
+    # Imagen oficial de Jenkins LTS (Long Term Support)
+    image: jenkins/jenkins:lts
+    
+    # Ejecutar como usuario root para evitar problemas de permisos
+    user: root
+    
+    # Mapeo de puertos
+    ports:
+      - "8080:8080"   # Puerto web de Jenkins
+      - "50000:50000" # Puerto para agentes Jenkins
+    
+    networks:
+      movie-network:
+        aliases:
+          - jenkins-server
+    
+    # Volúmenes para persistencia de datos
+    volumes:
+      - jenkins_home:/var/jenkins_home              # Datos de Jenkins (jobs, configuración, etc)
+      - /var/run/docker.sock:/var/run/docker.sock   # Socket de Docker (para Docker-in-Docker)
+      - .:/workspace/movie-webapp                   # Acceso al código del proyecto (solo lectura recomendado)
+    
+    # Variables de entorno
+    environment:
+      - JENKINS_OPTS=--prefix=/jenkins  # Opcional: si quieres acceder via /jenkins
+    
+    # Política de reinicio
+    restart: unless-stopped
+
 networks:
   movie-network:
     external: true
+
+volumes:
+  jenkins_home:
+    driver: local

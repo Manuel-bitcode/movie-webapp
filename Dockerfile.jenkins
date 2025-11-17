@@ -1,0 +1,26 @@
+# Dockerfile personalizado para Jenkins con Node.js
+FROM jenkins/jenkins:lts
+
+# Cambiar a usuario root para instalar software
+USER root
+
+# Actualizar e instalar dependencias necesarias
+RUN apt-get update && apt-get install -y \
+    curl \
+    gnupg \
+    && rm -rf /var/lib/apt/lists/*
+
+# Instalar Node.js 20.x (LTS)
+RUN curl -fsSL https://deb.nodesource.com/setup_20.x | bash - \
+    && apt-get install -y nodejs \
+    && rm -rf /var/lib/apt/lists/*
+
+# Verificar instalación de Node.js y npm
+RUN node --version && npm --version
+
+# Volver al usuario jenkins
+USER jenkins
+
+# Exponer puertos
+EXPOSE 8080 50000
+

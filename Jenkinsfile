@@ -1,16 +1,11 @@
 pipeline {
     agent any
-    tools { nodejs 'Node20' }
 
     parameters {
         string(name: 'BRANCH', defaultValue: 'main', description: 'Rama a construir')
     }
 
     environment {
-        // Configuración de Docker Hub (cámbialo por tus datos)
-        DOCKERHUB_USER = 'tu_usuario_dockerhub'
-        DOCKERHUB_REPO = 'movie-webapp'
-        DOCKERHUB_CREDENTIALS_ID = 'dockerhub-credentials'
         
         // Configuración del proyecto
         NODE_VERSION = '20'
@@ -18,6 +13,18 @@ pipeline {
     }
 
     stages {
+        stage('✅ Verificar Herramientas') {
+            steps {
+                echo '🔧 Verificando herramientas disponibles...'
+                sh '''
+                    echo "Node.js version:"
+                    node --version
+                    echo "npm version:"
+                    npm --version
+                '''
+            }
+        }
+
         stage('🔍 Checkout') {
             steps {
                 echo '📥 Descargando código del repositorio...'
@@ -57,15 +64,6 @@ pipeline {
             }
         }
 
-        stage('📊 Cobertura de Código') {
-            steps {
-                echo '📊 Generando reporte de cobertura...'
-                dir('/workspace/movie-webapp') {
-                    sh 'npm run test:coverage'
-                }
-            }
-        }
-
         stage('🏗️  Build Next.js') {
             steps {
                 echo '🏗️  Compilando aplicación Next.js...'
@@ -74,37 +72,6 @@ pipeline {
                 }
             }
         }
-
-        // stage('📤 Push to Docker Hub') {
-        //     when {
-        //         branch 'main'
-        //     }
-        //     steps {
-        //         echo '📤 Subiendo imagen a Docker Hub...'
-        //         script {
-        //             withCredentials([usernamePassword(
-        //                 credentialsId: DOCKERHUB_CREDENTIALS_ID,
-        //                 usernameVariable: 'DOCKER_USER',
-        //                 passwordVariable: 'DOCKER_PASS'
-        //             )]) {
-        //                 sh """
-        //                     echo "\$DOCKER_PASS" | docker login -u "\$DOCKER_USER" --password-stdin
-        //                     docker push ${DOCKERHUB_USER}/${DOCKERHUB_REPO}:${BUILD_NUMBER}
-        //                     docker push ${DOCKERHUB_USER}/${DOCKERHUB_REPO}:latest
-        //                     docker logout
-        //                 """
-        //             }
-        //         }
-        //     }
-        // }
-
-        // stage('🧹 Cleanup') {
-        //     steps {
-        //         echo '🧹 Limpiando recursos...'
-        //         // Elimina imágenes antiguas locales
-        //         sh 'docker image prune -f || true'
-        //     }
-        // }
     }
 
     post {

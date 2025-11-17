@@ -44,8 +44,10 @@ services:
     # Nombre del contenedor de Jenkins
     container_name: jenkins-server
     
-    # Imagen oficial de Jenkins LTS (Long Term Support)
-    image: jenkins/jenkins:lts
+    # Imagen personalizada de Jenkins con Node.js
+    build:
+      context: .
+      dockerfile: Dockerfile.jenkins
     
     # Ejecutar como usuario root para evitar problemas de permisos
     user: root
@@ -63,8 +65,7 @@ services:
     # Volúmenes para persistencia de datos
     volumes:
       - jenkins_home:/var/jenkins_home              # Datos de Jenkins (jobs, configuración, etc)
-      - /var/run/docker.sock:/var/run/docker.sock   # Socket de Docker (para Docker-in-Docker)
-      - .:/workspace/movie-webapp                   # Acceso al código del proyecto (solo lectura recomendado)
+      - .:/workspace/movie-webapp                   # Acceso al código del proyecto
     
     # Variables de entorno
     environment:

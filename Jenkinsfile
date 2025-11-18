@@ -57,9 +57,26 @@ pipeline {
 
         stage('🧪 Tests con Vitest') {
             steps {
-                echo '🧪 Ejecutando tests unitarios...'
+                echo '🧪 Ejecutando tests unitarios con cobertura...'
                 dir('/workspace/movie-webapp') {
-                    sh 'npm test'
+                    sh 'npm run test:ci'
+                }
+            }
+            post {
+                always {
+                    echo '📊 Publicando reportes de tests...'
+                    dir('/workspace/movie-webapp') {
+                        // Publicar resultados JUnit
+                        junit 'junit.xml'
+                        
+                        // Publicar reporte de cobertura HTML
+                        publishHTML([
+                            reportDir: 'coverage/lcov-report',
+                            reportFiles: 'index.html',
+                            reportName: 'Coverage Report',
+                            keepAll: true
+                        ])
+                    }
                 }
             }
         }

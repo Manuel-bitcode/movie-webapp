@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<testsuites name="vitest tests" tests="13" failures="0" errors="0" time="2.955">
+    <testsuite name="src/components/GlobalCounter/GlobalCounter.test.tsx" timestamp="2025-11-18T20:08:21.345Z" hostname="LAPTOP-PPB1EQAM" tests="13" failures="0" errors="0" skipped="0" time="0.3731594">
+        <testcase classname="src/components/GlobalCounter/GlobalCounter.test.tsx" name="GlobalCounter &gt; Renderizado básico &gt; renderiza correctamente" time="0.0340681">
+        </testcase>
+        <testcase classname="src/components/GlobalCounter/GlobalCounter.test.tsx" name="GlobalCounter &gt; Renderizado básico &gt; muestra el contador de likes inicial" time="0.003382">
+        </testcase>
+        <testcase classname="src/components/GlobalCounter/GlobalCounter.test.tsx" name="GlobalCounter &gt; Renderizado básico &gt; muestra el ícono de corazón" time="0.0051233">
+        </testcase>
+        <testcase classname="src/components/GlobalCounter/GlobalCounter.test.tsx" name="GlobalCounter &gt; Test: Verifica actualización del contador al dar like &gt; actualiza el contador cuando se incrementa un like" time="0.0186232">
+        </testcase>
+        <testcase classname="src/components/GlobalCounter/GlobalCounter.test.tsx" name="GlobalCounter &gt; Test: Verifica actualización del contador al dar like &gt; actualiza el contador cuando se decrementa un like" time="0.0342317">
+        </testcase>
+        <testcase classname="src/components/GlobalCounter/GlobalCounter.test.tsx" name="GlobalCounter &gt; Test: Verifica actualización del contador al dar like &gt; no permite que el contador sea negativo" time="0.0066894">
+        </testcase>
+        <testcase classname="src/components/GlobalCounter/GlobalCounter.test.tsx" name="GlobalCounter &gt; Test: Valida sincronización en tiempo real (WebSocket/polling) &gt; simula actualización del contador mediante polling" time="0.0486042">
+        </testcase>
+        <testcase classname="src/components/GlobalCounter/GlobalCounter.test.tsx" name="GlobalCounter &gt; Test: Valida sincronización en tiempo real (WebSocket/polling) &gt; simula actualización mediante WebSocket-like behavior" time="0.125001">
+        </testcase>
+        <testcase classname="src/components/GlobalCounter/GlobalCounter.test.tsx" name="GlobalCounter &gt; Test: Simula múltiples usuarios dando like simultáneamente &gt; maneja múltiples likes concurrentes correctamente" time="0.0159669">
+        </testcase>
+        <testcase classname="src/components/GlobalCounter/GlobalCounter.test.tsx" name="GlobalCounter &gt; Test: Simula múltiples usuarios dando like simultáneamente &gt; maneja race conditions en incrementos y decrementos simultáneos" time="0.0149191">
+        </testcase>
+        <testcase classname="src/components/GlobalCounter/GlobalCounter.test.tsx" name="GlobalCounter &gt; Test: Verifica persistencia después de refresh &gt; simula carga del contador desde localStorage al montar" time="0.0101003">
+        </testcase>
+        <testcase classname="src/components/GlobalCounter/GlobalCounter.test.tsx" name="GlobalCounter &gt; Test: Verifica persistencia después de refresh &gt; simula persistencia del contador en localStorage cuando cambia" time="0.0215305">
+        </testcase>
+        <testcase classname="src/components/GlobalCounter/GlobalCounter.test.tsx" name="GlobalCounter &gt; Test: Verifica persistencia después de refresh &gt; mantiene el contador después de desmontar y remontar el componente" time="0.0305263">
+        </testcase>
+    </testsuite>
+</testsuites>

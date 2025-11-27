@@ -1,0 +1,105 @@
+name: CI/CD Pipeline
+
+# Eventos que disparan el workflow
+on:
+  push:
+    branches:
+      - main
+      - feat/**
+      - develop
+  pull_request:
+    branches:
+      - main
+      - develop
+  workflow_dispatch:
+    inputs:
+      branch:
+        description: 'Rama a construir'
+        required: true
+        default: 'main'
+        type: string
+
+# Variables de entorno globales
+env:
+  NODE_VERSION: '20'
+  APP_PORT: '3002'
+
+jobs:
+  build-and-test:
+    name: 🏗️ Build & Test
+    runs-on: ubuntu-latest
+    
+    steps:
+      # ✅ Verificar Herramientas (implícito en setup-node)
+      - name: ✅ Verificar Herramientas
+        run: |
+          echo "🔧 Verificando herramientas disponibles..."
+          echo "Node.js version:"
+          node --version
+          echo "npm version:"
+          npm --version
+      
+      # 🔍 Checkout
+      - name: 🔍 Checkout código
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.inputs.branch || github.ref }}
+      
+      # Configurar Node.js
+      - name: ⚙️ Configurar Node.js ${{ env.NODE_VERSION }}
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'npm'
+      
+      # 📦 Instalar Dependencias
+      - name: 📦 Instalar Dependencias
+        run: |
+          echo "📦 Instalando dependencias de Node.js..."
+          npm install
+      
+      # 🔎 Lint (Revisar código)
+      - name: 🔎 Lint (Revisar código)
+        run: |
+          echo "🔍 Analizando código con ESLint..."
+          npm run lint || echo "⚠️  Lint encontró advertencias"
+        continue-on-error: true
+      
+      # 🧪 Tests con Vitest
+      - name: 🧪 Tests con Vitest
+        run: |
+          echo "🧪 Ejecutando tests unitarios..."
+          npm test
+      
+      # 🏗️ Build Next.js
+      - name: 🏗️ Build Next.js
+        run: |
+          echo "🏗️ Compilando aplicación Next.js..."
+          npm run build
+      
+      # Guardar artefactos del build
+      - name: 📤 Guardar artefactos del build
+        uses: actions/upload-artifact@v4
+        if: success()
+        with:
+          name: nextjs-build
+          path: |
+            .next/
+            !.next/cache/
+          retention-days: 7
+      
+      # Resumen final
+      - name: 🏁 Pipeline finalizado
+        if: always()
+        run: echo "🏁 Pipeline finalizado."
+      
+      - name: ✅ Build exitoso
+        if: success()
+        run: echo "✅ ¡Build exitoso! Todo funcionó correctamente."
+      
+      - name: ❌ Build falló
+        if: failure()
+        run: |
+          echo "❌ Build falló. Revisa los logs arriba."
+          exit 1
+

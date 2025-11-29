@@ -69,7 +69,12 @@ jobs:
       - name: 🧪 Tests con Vitest
         run: |
           echo "🧪 Ejecutando tests unitarios..."
-          npm test
+          npx vitest run --coverage
+      
+      - name: 📤 Upload results to Codecov
+        uses: codecov/codecov-action@v5
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }}
       
       # 🏗️ Build Next.js
       - name: 🏗️ Build Next.js
